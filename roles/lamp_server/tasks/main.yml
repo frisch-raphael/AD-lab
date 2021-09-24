@@ -8,20 +8,20 @@
 
 - name: Create virtual host
   file:
-    path: /var/www/cyberloop
+    path: /var/www/ethicalhackers
     state: directory
-    owner: cyberloop
-    group: cyberloop
+    owner: ethicalhackers
+    group: ethicalhackers
   become: yes
 
 - name: Copy configuration file into apache's sites-available directory
   copy:
-    src: cyberloop.conf
-    dest: /etc/apache2/sites-available/cyberloop.conf
+    src: ethicalhackers.conf
+    dest: /etc/apache2/sites-available/ethicalhackers.conf
   become: yes
 
 - name: Enable new virtual host
-  shell: a2ensite cyberloop
+  shell: a2ensite ethicalhackers
   become: yes
   register: apache1
 
@@ -40,11 +40,11 @@
 - name: Copy index.html for the website
   copy:
     src: index.html
-    dest: /var/www/cyberloop/index.html
+    dest: /var/www/ethicalhackers/index.html
   become: yes
 
 - name: Copy info.php for the website
   copy:
     src: info.php
-    dest: /var/www/cyberloop/info.php
+    dest: /var/www/ethicalhackers/info.php
   become: yes

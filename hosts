@@ -1,5 +1,5 @@
 [domain_controller]
-192.168.56.10
+192.168.1.100
 
 [domain_controller:vars]
 ansible_user=vagrant
@@ -8,7 +8,7 @@ ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
 [win_server]
-192.168.56.11
+192.168.1.101
 
 [win_server:vars]
 ansible_user=vagrant
@@ -17,7 +17,7 @@ ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
 [win_workstation]
-192.168.56.12
+192.168.1.102
 
 [win_workstation:vars]
 ansible_user=vagrant
@@ -25,8 +25,8 @@ ansible_password=vagrant
 ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
-[ubuntu_domain]
-192.168.56.13
+; [ubuntu_domain]
+; 192.168.1.13
 
-[ubuntu_outside]
-192.168.56.14
+; [ubuntu_outside]
+; 192.168.1.14

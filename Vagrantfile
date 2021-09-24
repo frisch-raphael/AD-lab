@@ -1,62 +1,62 @@
-Vagrant.configure("2") do |config|
+Vagrant.configure("2") do |vagrant_config|
   
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
-    v.cpus = 1
-  end
+	windows_servers_config = {
+		'dc' => {
+			:ip => '192.168.1.100',
+			:image => 'StefanScherer/windows_2019'
+		},
+		
+		'win_server' => {
+			:ip => '192.168.1.101',
+			:image => 'StefanScherer/windows_2019'
+		},
+		
+		'win_workstation' => {
+			:ip => '192.168.1.102',
+			:image => 'StefanScherer/windows_10'
+		}
+	}
+  
+	vagrant_config.vm.provider "vmware_workstation" do |v|
+		v.memory = 1500
+		v.cpus = 1
+	end
+    
+	windows_servers_config.each_with_index do |(server_name, server_config), i|
 
-  config.vm.define "dc" do |dc|
-    dc.vm.guest = :windows
-    dc.vm.communicator = "winrm"
-    dc.vm.boot_timeout = 600
-    dc.vm.graceful_halt_timeout = 600
-    dc.winrm.retry_limit = 30
-    dc.winrm.retry_delay = 10
-    dc.vm.box = "StefanScherer/windows_2019"
-    dc.vm.network "private_network", ip: "192.168.56.10"
-    dc.vm.network :forwarded_port, guest: 3389, host: 23389, id: "msrdp"
-    dc.vm.network :forwarded_port, guest: 5985, host: 25985, id: "winrm"
-    dc.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
-  end
+		vagrant_config.vm.define server_name do |windows_box_config|
 
-  config.vm.define "win_server" do |win_server|
-    win_server.vm.guest = :windows
-    win_server.vm.communicator = "winrm"
-    win_server.vm.boot_timeout = 600
-    win_server.vm.graceful_halt_timeout = 600
-    win_server.winrm.retry_limit = 30
-    win_server.winrm.retry_delay = 10
-    win_server.vm.box = "StefanScherer/windows_2019"
-    win_server.vm.network "private_network", ip: "192.168.56.11"
-    win_server.vm.network :forwarded_port, guest: 3389, host: 33389, id: "msrdp"
-    win_server.vm.network :forwarded_port, guest: 5985, host: 35985, id: "winrm"
-    win_server.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
-  end
+			windows_box_config.vm.guest = :windows
+			windows_box_config.vm.communicator = "winrm"
+			windows_box_config.vm.boot_timeout = 240
+			windows_box_config.vm.graceful_halt_timeout = 240
+			windows_box_config.winrm.retry_limit = 5
+			windows_box_config.winrm.retry_delay = 10
+			windows_box_config.vm.box = server_config[:image]
+			# configure network adaptater for windows not supported if provider is vmware ?
+			windows_box_config.vm.network "public_network", ip: server_config[:ip]
 
-  config.vm.define "win_workstation" do |win_workstation|
-    win_workstation.vm.guest = :windows
-    win_workstation.vm.communicator = "winrm"
-    win_workstation.vm.boot_timeout = 600
-    win_workstation.vm.graceful_halt_timeout = 600
-    win_workstation.winrm.retry_limit = 30
-    win_workstation.winrm.retry_delay = 10    
-    win_workstation.vm.box = "StefanScherer/windows_10"
-    win_workstation.vm.network "private_network", ip: "192.168.56.12"
-    win_workstation.vm.network :forwarded_port, guest: 3389, host: 43389, id: "msrdp"
-    win_workstation.vm.network :forwarded_port, guest: 5985, host: 45985, id: "winrm"
-    win_workstation.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
-  end
+			# configure network adaptater for windows not supported if provider is vmware ?
+			windows_box_config.vm.provision :shell do |shell|
+				shell.inline = "netsh interface ip set address name=\"Ethernet1\" static #{server_config[:ip]} 255.255.255.0"
+				shell.powershell_elevated_interactive = true
+				shell.privileged = true
+			end
+			
+			windows_box_config.vm.provision :shell do |shell|
+				shell.inline = "NetSh Advfirewall set allprofiles state off"
+				shell.powershell_elevated_interactive = true
+				shell.privileged = true
+			end
+			
+			windows_box_config.vm.provision :shell do |shell|
+				shell.inline = 'Set-WinUserLanguageList -LanguageList fr-FR -Force'
+				shell.reboot = true
+			end
 
-  config.vm.define "ubuntu_domain" do |ubuntu_domain|
-    ubuntu_domain.vm.box = "ubuntu/focal64"
-    ubuntu_domain.vm.network "private_network", ip: "192.168.56.13"
-    ubuntu_domain.vm.network :forwarded_port, guest: 22, host: 10022, id: "msrdp"
-  end
-
-  config.vm.define "ubuntu_outside" do |ubuntu_outside|
-    ubuntu_outside.vm.box = "ubuntu/focal64"
-    ubuntu_outside.vm.network "private_network", ip: "192.168.56.14"
-    ubuntu_outside.vm.network :forwarded_port, guest: 22, host: 20022, id: "msrdp"
-  end
+			windows_box_config.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
+		end 
+		
+	end 
 
 end

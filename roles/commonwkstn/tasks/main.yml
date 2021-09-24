@@ -14,17 +14,6 @@
     name: xNetworking
     state: present
 
-- name: Firewall | Allow RDP through Firewall
-  win_dsc:
-    resource_name: xFirewall
-    Name: "Administrator access for RDP (TCP-In)"
-    Ensure: present
-    Enabled: True
-    Profile: "Domain"
-    Direction: "Inbound"
-    Localport: "3389"
-    Protocol: "TCP"
-    Description: "Opens the listener port for RDP"
 
 - name: Change the hostname to win-workstation-1
   win_hostname:
@@ -50,5 +39,4 @@
     state: present
   with_items:
   - notepadplusplus
-  - git
   - pstools

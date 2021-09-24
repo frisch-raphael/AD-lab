@@ -1,18 +1,18 @@
-- name: Change the hostname to member-server
+- name: Change the hostname to win-server
   win_hostname:
-    name: member-server
+    name: win-server
   register: win_hostname
 
 - name: Reboot if needed
   win_reboot:
   when: win_hostname.reboot_required
 
-- name: Set configure dns
-  win_dns_client:
+- name: Configure DNS
+  tags: dns
+  debugger: on_failed
+  ansible.windows.win_dns_client:
     adapter_names: '*'
-    ipv4_addresses:
-    - 192.168.56.10
-    log_path: C:\dns_log.txt
+    dns_servers: 192.168.1.10
 
 - name: Verify File Server Role is installed.
   win_feature:
@@ -61,11 +61,11 @@
     full: Administrators
     change: Users
 
-- name: Add member server to cyberloop.local
+- name: Add member server to ethicalhackers.local
   win_domain_membership:
-    dns_domain_name: cyberloop.local
-    domain_admin_user: Administrator@cyberloop.local
-    domain_admin_password: StrongPass123!
+    dns_domain_name: ethicalhackers.local
+    domain_admin_user: Administrator@ethicalhackers.local
+    domain_admin_password: Mdp1234!
     state: domain
   register: domain_state
 

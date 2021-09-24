@@ -8,7 +8,7 @@
 
   tasks:
 
-  - name: Set configure dns
+  - name: Configure dns
     win_dns_client:
       adapter_names: '*'
       ipv4_addresses:

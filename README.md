@@ -2,7 +2,7 @@
 
 This lab is made of five virtual machines:
 - **Domain controller** running on Windows Server 2019
-- **Member server** with a Microsoft ISS web-server and a Microsoft SQL server
+- **Win server** with a Microsoft ISS web-server and a Microsoft SQL server
 - **Windows workstation** running on Windows 10
 - **Linux server inside the domain** running on Ubuntu 20.04 LTS
 - **Linux server outside the domain** running on Ubuntu 20.04 LTS
@@ -29,7 +29,7 @@ To have the lab up and running the two commands you need to run are:
 
 If you run into some problems while running the main playbook, you can also the indipendent playbooks:
 - `ansible-playbook -i hosts domain_controller.yml`
-- `ansible-playbook -i hosts member_server.yml`
+- `ansible-playbook -i hosts win_server.yml`
 - `ansible-playbook -i hosts win_workstation.yml`
 - `ansible-playbook -i hosts linux_srv_domain.yml`
 - `ansible-playbook -i hosts linux_srv_no_domain.yml`

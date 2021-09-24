@@ -1,8 +1,0 @@
----
-- name: cyberloop.local Linux server inside the domain configuration
-  hosts: linux_srv_domain
-  
-  roles:
-  - linux_server_basic
-  - linux_server_domain
-  - lamp_server

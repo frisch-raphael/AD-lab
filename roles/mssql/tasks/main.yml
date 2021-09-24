@@ -277,8 +277,8 @@
 #    name: "Clients"
 #    state: present
 #    login_host: "192.168.56.11"
-#    login_user: "CYBERLOOP\admin"
-#    login_password: "StrongPass123!"
+#    login_user: "ethicalhackers\admin"
+#    login_password: "Mdp1234!"
 
 #- name: Setup Clients database
 #  mssql_db:
