@@ -1,16 +1,16 @@
-domain: cyberloop.local
+domain: ethicalhackers.local
 
 # Passwords
 
-Administrator_pass: StrongPass123!
-admin_pass: StrongPass123!
-bob_pass: StrongPass123!
-alice_pass: StrongPass123!
+Administrator_pass: Mdp1234!
+admin_pass: Mdp1234!
+bob_pass: Mdp1234!
+alice_pass: Mdp1234!
 vagrant_pass: vagrant
 
 # IP addresses
 
-dc_ip: 192.168.56.10
+dc_ip: 192.168.1.100
 
 # Hostnames
 

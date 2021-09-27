@@ -1,5 +1,5 @@
 ---
-- name: cyberloop.local Domain Controller configuration
+- name: ethicalhackers.local Domain Controller configuration
   hosts: domain_controller
   serial: 1
   roles:

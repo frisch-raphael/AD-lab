@@ -1,6 +1,6 @@
 ---
 
-- name: cyberloop.local server configuration
+- name: ethicalhackers.local server configuration
   hosts: win_server
   roles:
     - common

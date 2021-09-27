@@ -1,3 +1,34 @@
+
+- name: Configure dns
+  tags: dns
+  win_dns_client:
+    adapter_names: '*'
+    ipv4_addresses:
+    - "{{ dc_ip }}"
+    log_path: C:\dns_log.txt
+
+- name: Ensure directory structure for public share exists
+  win_file:
+    path: C:\shares\public
+    state: directory
+
+- name: Ensure public share exists
+  win_share:
+    name: public
+    description: Basic RW share for all domain users
+    path: C:\shares\public
+    list: yes
+    full: Administrators
+    change: Users
+
+- name: add windows 10 workstation to ethicalhackers.local
+  win_domain_membership:
+    dns_domain_name: ethicalhackers.local
+    domain_admin_user: Administrator@ethicalhackers.local
+    domain_admin_password: "{{ Administrator_pass }}"
+    state: domain
+  register: domain_state
+
 - name: Windows | Check for xRemoteDesktopAdmin Powershell module
   win_psmodule:
     name: xRemoteDesktopAdmin
