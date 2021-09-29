@@ -29,22 +29,6 @@
     state: domain
   register: domain_state
 
-- name: Windows | Check for xRemoteDesktopAdmin Powershell module
-  win_psmodule:
-    name: xRemoteDesktopAdmin
-    state: present
-
-- name: Windows | Enable Remote Desktop
-  win_dsc:
-    resource_name: xRemoteDesktopAdmin
-    Ensure: present
-    UserAuthentication: Secure
-
-- name: Windows | Check for xNetworking Powershell module
-  win_psmodule:
-    name: xNetworking
-    state: present
-
 
 - name: Change the hostname to win-workstation-1
   win_hostname:
@@ -57,17 +41,3 @@
     reboot_timeout: 2000
   when: res.reboot_required
 
-- name: Ensure chocolatey is installed
-  win_chocolatey:
-    name:
-    - chocolatey
-    - chocolatey-core.extension
-    state: present
-
-- name: Install multiple packages sequentially
-  win_chocolatey:
-    name: '{{ item }}'
-    state: present
-  with_items:
-  - notepadplusplus
-  - pstools

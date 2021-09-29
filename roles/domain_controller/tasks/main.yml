@@ -1,9 +1,9 @@
-- name: Ensure chocolatey is installed
-  win_chocolatey:
-    name:
-    - chocolatey
-    - chocolatey-core.extension
-    state: present
+- name: Test DNS
+  ansible.windows.win_dns_client:
+    adapter_names: '*'
+    dns_servers: 1.1.1.1
+
+
 
 - name: disable enhanced exit codes
   win_chocolatey_feature:
@@ -17,8 +17,7 @@
   with_items:
   - notepadplusplus
   - putty
-  - python
-  - git
+  - chrome
   - 7zip
   - sysinternals
   - wget
@@ -60,6 +59,7 @@
     state: domain_controller
     log_path: C:\ansible_win_domain_controller.txt
   register: check_domain_controller
+
 
 - name: Reboot to complete domain controller setup
   win_reboot:
