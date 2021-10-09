@@ -3,5 +3,6 @@
   hosts: domain_controller
   serial: 1
   roles:
+  - { role: keyboard_configuration, keyboard_layout: fr }
   - common
   - domain_controller

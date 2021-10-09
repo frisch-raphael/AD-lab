@@ -1,27 +1,12 @@
 - name: Test DNS
   ansible.windows.win_dns_client:
     adapter_names: '*'
-    dns_servers: 1.1.1.1
-
-
+    dns_servers: 8.8.8.8
 
 - name: disable enhanced exit codes
   win_chocolatey_feature:
     name: useEnhancedExitCodes
     state: disabled
-
-- name: Install multiple packages sequentially
-  win_chocolatey:
-    name: '{{ item }}'
-    state: present
-  with_items:
-  - notepadplusplus
-  - putty
-  - chrome
-  - 7zip
-  - sysinternals
-  - wget
-  - pstools
 
 - name: Change the hostname to domain-controller
   win_hostname:

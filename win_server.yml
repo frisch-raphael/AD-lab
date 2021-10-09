@@ -5,6 +5,4 @@
   roles:
     - common
     - win_server
-    - mssql
-     - { role: keyboard-configuration, keyboard_layout: fr }
 ...

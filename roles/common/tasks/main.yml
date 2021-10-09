@@ -41,7 +41,7 @@
   with_items:
   - notepadplusplus
   - pstools
-  - chrome
+  - googlechrome
   - putty
   - 7zip
   - sysinternals
